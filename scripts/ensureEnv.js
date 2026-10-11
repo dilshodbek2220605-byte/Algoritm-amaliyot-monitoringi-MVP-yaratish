@@ -13,8 +13,13 @@ const rootDir = path.resolve(__dirname, '..');
 const envPath = path.join(rootDir, '.env');
 const examplePath = path.join(rootDir, '.env.example');
 
+const EXTERNAL_CONFIG_KEYS = ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'];
+
 try {
   if (fs.existsSync(envPath)) {
+    process.exit(0);
+  }
+  if (EXTERNAL_CONFIG_KEYS.some((key) => process.env[key])) {
     process.exit(0);
   }
   if (!fs.existsSync(examplePath)) {
